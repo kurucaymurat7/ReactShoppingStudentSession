@@ -1,5 +1,8 @@
 package tests;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -9,14 +12,18 @@ import pages.ReactShoppingWebSite;
 import utilities.ConfigReader;
 import utilities.Driver;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class C01 {
+public class reactWebsiteTest {
     @Test
-    public void test01() throws InterruptedException {
+    public void test01() throws IOException {
 
         // 1."https://react-shopping-cart-67954.firebaseapp.com/" adresine gidin
         ReactShoppingWebSite reactShoppingWebSite = new ReactShoppingWebSite();
@@ -50,8 +57,8 @@ public class C01 {
             int randomOgeIndex = rnd.nextInt(16);
             if (!randomSecilenOgeler.contains(randomOgeIndex)) {
                 randomSecilenOgeler.add(randomOgeIndex);
-                //System.out.print("Random ürün no : " + (randomOgeIndex+1));
-                //System.out.println();
+                System.out.print("Random ürün no : " + (randomOgeIndex+1));
+                System.out.println();
                 addtoCartButtonWebElementList.get(randomOgeIndex).click();
                 reactShoppingWebSite.Xbutton.click(); // her bir eklemeden sonra X buttona basılmalıdır ki, unvisible element kalmasın.
                 String urunFiyat = reactShoppingWebSite.pricesList.get(randomOgeIndex).getText();
@@ -75,6 +82,20 @@ public class C01 {
         //System.out.println("expected:" + expectedToplamFiyat);
         //System.out.println("actual:" + actualToplamFiyat);
         Assert.assertTrue((int)actualToplamFiyat == (int)expectedToplamFiyat);
+
+        // Not: burada rapor almak icin screenshot alabiliriz. Toplam fiyat bilgisini rapor alalım.
+        TakesScreenshot ts = (TakesScreenshot) Driver.getDriver();
+        LocalDateTime date = LocalDateTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("YYMMddHHmmss");
+        String tarih = date.format(dtf);
+
+        File tumSayfa = new File("target/screenshots/tumSayfa_"+tarih+"_.jpeg");
+        File temp = ts.getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(temp,tumSayfa);
+
+        File fiyatBilgisiResim = new File("target/screenshots/toplamfiyatBilgisi_"+tarih+"_.jpeg");
+        temp = reactShoppingWebSite.toplamFiyatWebElement.getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(temp, fiyatBilgisiResim);
 
         // 7.Checkout'a tıklayın
         reactShoppingWebSite.checkout.click();
