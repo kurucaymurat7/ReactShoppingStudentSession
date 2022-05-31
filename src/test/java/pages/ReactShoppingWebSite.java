@@ -32,4 +32,25 @@ public class ReactShoppingWebSite {
     @FindBy (xpath = "//button[@class='sc-1h98xa9-0 gFkyvN']")
     public WebElement sepetLink;
 
+    // vasif projedeki web element locators
+
+    @FindBy(xpath = "//div[@class='sc-uhudcz-0 iZZGui']/div")
+    public List<WebElement> productsElement;
+
+    @FindBy(xpath = "//div[@class='sc-uhudcz-0 iZZGui']/div/p")
+    public List<WebElement> productNamesElement;
+
+    @FindBy(xpath = "//div[@class='sc-124al1g-5 fTQxRg']/p[1]")
+    public List<WebElement> priceElement;
+
+    @FindBy(xpath = "//button[@class='sc-124al1g-0 jCsgpZ']")
+    public List<WebElement> addToCartButton;
+
+    @FindBy(xpath = "//div[@class='sc-1h98xa9-8 bciIxg']/p[1]")
+    public WebElement subtotalPriceElement;
+
+    @FindBy(xpath = "//button[@class='sc-1h98xa9-11 gnXVNU']")
+    public WebElement checkOutButtonElement;
+
+
 }

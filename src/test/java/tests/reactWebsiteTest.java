@@ -23,7 +23,7 @@ import java.util.Random;
 
 public class reactWebsiteTest {
     @Test
-    public void test01() throws IOException {
+    public void test01() throws IOException, InterruptedException {
 
         // 1."https://react-shopping-cart-67954.firebaseapp.com/" adresine gidin
         ReactShoppingWebSite reactShoppingWebSite = new ReactShoppingWebSite();
@@ -54,12 +54,13 @@ public class reactWebsiteTest {
         Random rnd = new Random();
         List<Integer> randomSecilenOgeler = new ArrayList<>();
         do {
-            int randomOgeIndex = rnd.nextInt(16);
+            int randomOgeIndex = rnd.nextInt(tumOgelerList.size());
             if (!randomSecilenOgeler.contains(randomOgeIndex)) {
                 randomSecilenOgeler.add(randomOgeIndex);
                 System.out.print("Random ürün no : " + (randomOgeIndex+1));
                 System.out.println();
                 addtoCartButtonWebElementList.get(randomOgeIndex).click();
+                Thread.sleep(3000);
                 reactShoppingWebSite.Xbutton.click(); // her bir eklemeden sonra X buttona basılmalıdır ki, unvisible element kalmasın.
                 String urunFiyat = reactShoppingWebSite.pricesList.get(randomOgeIndex).getText();
                 Double urunFiyatDouble = Double.valueOf(urunFiyat.substring(1));
@@ -71,7 +72,7 @@ public class reactWebsiteTest {
         //Not: checkout ve toplam fiyat bilgisini alabilmek icin oncelikle sepet linke basıp o sayfanın görünür olması saglanmalıdır.
 
         reactShoppingWebSite.sepetLink.click(); // bu kısımda explicitWait kullandım, çünkü Checkout ve fiyat bilgisinin visible olması icin
-        WebDriverWait wait= new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(15));
+        WebDriverWait wait= new WebDriverWait(Driver.getDriver(), Duration.ofSeconds(30));
         wait.until(ExpectedConditions.visibilityOf(reactShoppingWebSite.toplamFiyatWebElement));
 
         // 5.Her bir öğenin fiyatını toplayın ve sonucunuzu web sitesiyle karşılaştırın
