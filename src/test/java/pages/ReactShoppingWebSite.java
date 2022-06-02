@@ -11,6 +11,7 @@ public class ReactShoppingWebSite {
     public ReactShoppingWebSite() {
         PageFactory.initElements(Driver.getDriver(), this);
     }
+    //p[@class='sc-124al1g-4 eeXMBo'] - tumOgelerList
     @FindBy (xpath = "//p[@class='sc-124al1g-4 eeXMBo']")
     public List<WebElement> tumOgelerList;
 

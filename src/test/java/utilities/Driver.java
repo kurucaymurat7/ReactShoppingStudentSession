@@ -8,6 +8,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import java.time.Duration;
 
 public class Driver {
+    private Driver() {
+    }
 
     static WebDriver driver;
 
